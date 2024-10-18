@@ -5,7 +5,7 @@ metadata:
   labels:
     app: react-app
 spec:
-  replicas: 2 # Adjust the number of replicas as needed
+  replicas: 1
   selector:
     matchLabels:
       app: product-management-frontend
@@ -18,27 +18,7 @@ spec:
         - name: product-management-frontend
           image: 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
           ports:
-            - containerPort: 80
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 30
-            periodSeconds: 10
-
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -49,7 +29,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: 80
+    - port: 3000
+      targetPort: 3000
   selector:
     app: product-management-frontend
