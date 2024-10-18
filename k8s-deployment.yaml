@@ -23,13 +23,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-management-svc
-  labels:
-    app: product-management-frontend
+  name: product-management-frontend
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
-    - port: 3000
+    - port: 80
       targetPort: 3000
+      nodePort: 30000
   selector:
     app: product-management-frontend
