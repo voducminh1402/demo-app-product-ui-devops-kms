@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-management-frontend
+  labels:
+    app: react-app
+spec:
+  replicas: 2 # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: product-management-frontend
+  template:
+    metadata:
+      labels:
+        app: product-management-frontend
+    spec:
+      containers:
+        - name: product-management-frontend
+          image: 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-management-svc
+  labels:
+    app: product-management-frontend
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: product-management-frontend
