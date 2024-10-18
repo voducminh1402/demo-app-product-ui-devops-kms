@@ -52,7 +52,7 @@ jobs:
           echo 'COPY build /usr/share/nginx/html' >> Dockerfile
 
           # Build the Docker image
-          docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/react-app:${GITHUB_SHA} .
+          docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms .
 
       - name: Install and configure AWS CLI
         run: |
