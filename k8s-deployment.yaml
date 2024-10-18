@@ -25,9 +25,10 @@ kind: Service
 metadata:
   name: product-management-frontend
 spec:
-  type: NodePort
-  ports:
-    - port: 3000
-      targetPort: 3000
   selector:
     app: product-management-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
