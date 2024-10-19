@@ -1,18 +1,13 @@
-FROM node:20-alpine
+FROM node:14-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
+
 RUN npm install
 
 COPY . .
-RUN npm run build
 
-# Install `serve` to serve the build folder
-RUN npm install -g serve
-
-# Expose the port the app runs on
 EXPOSE 3000
 
-# Use `serve` to serve the app
-CMD ["serve", "-s", "build"]
+CMD ["npm", "start"]
